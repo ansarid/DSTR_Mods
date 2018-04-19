@@ -8,10 +8,10 @@
 
   Wires:
     
-    White --- GND
-    Red ----- 5V
-    Green --- A4
-    Yellow -- A5
+    White ----- GND
+    Red ------- 5V
+    Green ----- A4
+    Yellow ---- A5
 
   MATH:
 
