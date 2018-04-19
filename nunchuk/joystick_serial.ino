@@ -1,28 +1,27 @@
 /*
+
   By: Daniyal Ansari
 
   About:
   
-  This code is for to control the DSTR robot using the Wii Nunhchuk joystick, buttons, and accelerometers.
+  This code is for controling the DSTR robot using the Wii Nunhchuk joystick, buttons, and accelerometers.
 
-   MATH:
+  MATH:
 
-   Raw Values
+  Raw Values:
 
-  int joy_x_axis = nunchuck_buf[0];
-  int joy_y_axis = nunchuck_buf[1];
+    int joy_x_axis = nunchuck_buf[0];
+    int joy_y_axis = nunchuck_buf[1];
 
+  Without 255 Inversion:
 
-   Without 255 Inversion
+    int joy_x_axis = abs(2.55 * (nunchuck_buf[0]) - 331.5);
+    int joy_y_axis = abs(2.55 * (nunchuck_buf[1]) - 331.5);
 
-  int joy_x_axis = abs(2.55 * (nunchuck_buf[0]) - 331.5);
-  int joy_y_axis = abs(2.55 * (nunchuck_buf[1]) - 331.5);
+  With 255 Inversion:
 
-
-  With 255 Inversion
-
-  int joy_x_axis = 255 - (abs(2.55 * (nunchuck_buf[0]) - 331.5));
-  int joy_y_axis = 255 - (abs(2.55 * (nunchuck_buf[1]) - 331.5));
+    int joy_x_axis = 255 - (abs(2.55 * (nunchuck_buf[0]) - 331.5));
+    int joy_y_axis = 255 - (abs(2.55 * (nunchuck_buf[1]) - 331.5));
 
 */
 
