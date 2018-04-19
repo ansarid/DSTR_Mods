@@ -5,8 +5,7 @@
   
   This code is for to control the DSTR robot using the Wii Nunhchuk joystick, buttons, and accelerometers.
 
-
-   MATH
+   MATH:
 
    Raw Values
 
@@ -185,7 +184,8 @@ void nunchuck_print_data() {
   
   int throttle = 255 - ( sqrt( sq ( 255 - joy_x_axis_throttle ) + sq ( 255 - joy_y_axis_throttle ) ) );
 
-if (allowSerialWrite >= 50){ 
+
+if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
   if ( ( joy_x_axis_direction < 8 && joy_x_axis_direction > -8 ) && ( joy_y_axis_direction < 8 && joy_y_axis_direction > -8 ) ) {
   
