@@ -6,6 +6,13 @@
   
   This code is for controling the DSTR robot using the Wii Nunhchuk joystick, buttons, and accelerometers.
 
+  Wires:
+    
+    White --- GND
+    Red ----- 5V
+    Green --- A4
+    Yellow -- A5
+
   MATH:
 
   Raw Values:
