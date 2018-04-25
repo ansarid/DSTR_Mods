@@ -227,14 +227,14 @@ except KeyboardInterrupt:
         #servo.disable()
 	
 	pass
-		
+
 finally:
-	
+
 	# stop clock
-        clck.stop()
-        
-        # disable servos
-        servo.disable()
-	
+	clck.stop()
+
+	# disable servos
+	servo.disable()
+
 	# Finish Program
 	print("\nExiting!")
