@@ -9,8 +9,8 @@
 
 # To Do:
 
-# 1. Check if sudo
-# 2. Check if rcpy installed
+# 1. Check if sudo - DONE
+# 2. Check if rcpy installed - Not working wth
 # 3. config file
 # 4. Start DSTR on Boot?
 # 5. Start DSTR on SSH?
