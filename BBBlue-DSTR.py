@@ -13,6 +13,23 @@
 # 2. Check if rcpy installed
 # 3. config file
 
+# Servo  defaults
+duty = 1.5
+period = 0.02
+channel = 0
+sweep = False
+brk = False
+free = False
+
+import time, math
+import getopt, sys
+
+# import rcpy library
+# This automatically initizalizes the robotics cape
+import rcpy 
+import rcpy.servo as servo
+import rcpy.clock as clock
+
 import os
 import time
 import socket
@@ -129,6 +146,8 @@ duty_y = 0
 # Set RCPY State to rcpy.RUNNING
 rcpy.set_state(rcpy.RUNNING)
 
+clck = clock.Clock(srvo, period)
+
 try:
 	# Start UDP Server
 
@@ -136,12 +155,19 @@ try:
 	sock.bind((UDP_IP, UDP_PORT))
 	sock.settimeout(.25)
 
+	# enable servos				
+	#servo.enable()
+
+	# start clock
+	#clck.start()
+	#srvo.set(duty)
+	
 	while True:
 
 		if rcpy.get_state() == rcpy.RUNNING:
 
 			try:	
-
+			
 				data, addr = sock.recvfrom(bufferSize)
 				
 				if len(data) == 4:
@@ -182,6 +208,9 @@ try:
 				duty_y = -1*(int(data[1])-255)/255
 
 			motors(duty_x,duty_y)
+			
+			#srvo.set(d)
+			
 			pass
 
 		# Check if Paused
@@ -192,9 +221,24 @@ try:
 			pass
 
 except KeyboardInterrupt:
+	
 	# Kill if Ctrl-C
+	
+	# stop clock
+        #clck.stop()
+        
+        # disable servos
+        #servo.disable()
+	
 	pass
 		
 finally:
+	
+	# stop clock
+        clck.stop()
+        
+        # disable servos
+        servo.disable()
+	
 	# Finish Program
 	print("\nExiting!")
