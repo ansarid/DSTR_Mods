@@ -142,6 +142,8 @@ motor_duty_y = 0
 # Set RCPY State to rcpy.RUNNING
 rcpy.set_state(rcpy.RUNNING)
 
+srvo = servo.Servo(channel)
+
 clck = clock.Clock(srvo, period)
 
 try:
