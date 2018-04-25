@@ -133,7 +133,7 @@ UDP_PORT = 3553			# Port to Listen on
 
 # Place to Store Data
 
-bufferSize = 1024 # Yes, lots of space.
+bufferSize = 1024 # Yes, lots of space, will resize appropriately later.
 
 # Set Motors Pins
 
