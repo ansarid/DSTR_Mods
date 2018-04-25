@@ -219,15 +219,15 @@ try:
 			pass
 
 except KeyboardInterrupt:
-	
+
 	# Kill if Ctrl-C
-	
+
 	# stop clock
-        #clck.stop()
-        
-        # disable servos
-        #servo.disable()
-	
+	#clck.stop()
+
+	# disable servos
+	#servo.disable()
+
 	pass
 
 finally:
