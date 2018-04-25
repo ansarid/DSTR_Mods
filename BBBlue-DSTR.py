@@ -12,9 +12,11 @@
 # 1. Check if sudo
 # 2. Check if rcpy installed
 # 3. config file
+# 4. Start DSTR on Boot?
+# 5. Start DSTR on SSH?
 
 # Servo  defaults
-duty = 1.5
+servo_duty = 1.5
 period = 0.02
 channel = 0
 sweep = False
@@ -140,8 +142,8 @@ motor_y = 4
 
 # Initial Motor Duty Cycles
 
-duty_x = 0
-duty_y = 0
+motor_duty_x = 0
+motor_duty_y = 0
 
 # Set RCPY State to rcpy.RUNNING
 rcpy.set_state(rcpy.RUNNING)
@@ -160,7 +162,7 @@ try:
 
 	# start clock
 	#clck.start()
-	#srvo.set(duty)
+	#srvo.set(servo_duty)
 	
 	while True:
 
@@ -184,8 +186,8 @@ try:
 
 			except socket.timeout:
 
-				duty_x = 0
-				duty_y = 0
+				motor_duty_x = 0
+				motor_duty_y = 0
 				data = 0
 				motor.set_brake(motor_x)
 				motor.set_brake(motor_y)
@@ -193,21 +195,21 @@ try:
 
 			if int(data[0]) == 187:
 
-				duty_x = (int(data[3])-255)/255
+				motor_duty_x = (int(data[3])-255)/255
 
 			elif int(data[0]) == 170:
 
-				duty_x = -1*(int(data[3])-255)/255
+				motor_duty_x = -1*(int(data[3])-255)/255
 
 			if int(data[2]) == 187:
 
-				duty_y = (int(data[1])-255)/255
+				motor_duty_y = (int(data[1])-255)/255
 
 			elif int(data[2]) == 170:
 
-				duty_y = -1*(int(data[1])-255)/255
+				motor_duty_y = -1*(int(data[1])-255)/255
 
-			motors(duty_x,duty_y)
+			motors(motor_duty_x,motor_duty_y)
 			
 			#srvo.set(d)
 			
