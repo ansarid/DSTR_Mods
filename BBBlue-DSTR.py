@@ -23,15 +23,6 @@ sweep = False
 brk = False
 free = False
 
-import time, math
-import getopt, sys
-
-# import rcpy library
-# This automatically initizalizes the robotics cape
-import rcpy 
-import rcpy.servo as servo
-import rcpy.clock as clock
-
 import os
 import time
 import socket
@@ -115,9 +106,12 @@ except ImportError:
 		print("\nExiting!\n")
 		exit()
 
-
+import time, math
+import getopt, sys
 import rcpy
 import rcpy.motor as motor
+import rcpy.servo as servo
+import rcpy.clock as clock
 import rcpy.gpio as gpio
 import rcpy.led as led
 
