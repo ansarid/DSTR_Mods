@@ -168,15 +168,15 @@ try:
 				
 				if len(data) == 4:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3],"|  Duty: ",motor_duty_x,",",motor_duty_y, "  |   Data from DSTR App")
 				
 				elif len(data) == 12:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"|  Duty: ",motor_duty_x,",",motor_duty_y, "   |   Data from Nunchuck Device")
 					
 				elif len(data) != 4 and len(data) != 12:
 					
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"|  Duty: ",motor_duty_x,",",motor_duty_y, "   |   Data from Unknown Device")
 
 			except socket.timeout:
 
