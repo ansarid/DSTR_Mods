@@ -154,11 +154,11 @@ try:
 	sock.settimeout(.25)
 
 	# enable servos				
-	#servo.enable()
+	servo.enable()
 
 	# start clock
-	#clck.start()
-	#srvo.set(servo_duty)
+	clck.start()
+	srvo.set(servo_duty)
 	
 	while True:
 
@@ -207,7 +207,7 @@ try:
 
 			motors(motor_duty_x,motor_duty_y)
 			
-			#srvo.set(d)
+			srvo.set(d)
 			
 			pass
 
@@ -223,10 +223,10 @@ except KeyboardInterrupt:
 	# Kill if Ctrl-C
 
 	# stop clock
-	#clck.stop()
+	clck.stop()
 
 	# disable servos
-	#servo.disable()
+	servo.disable()
 
 	pass
 
