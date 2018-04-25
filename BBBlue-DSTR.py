@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# Modify /etc/default/bb-wl18xx for AP SSID and Gateway <---- Especially important!
 
 #led.red.on()
 #time.sleep(30)
@@ -10,7 +11,7 @@
 
 # 1. Check if sudo
 # 2. Check if rcpy installed
-# 3. 
+# 3. config file
 
 import os
 import time
