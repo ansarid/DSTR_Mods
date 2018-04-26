@@ -220,18 +220,18 @@ try:
 			
 			servo_duty_wrist_x = 0.027 * data[4] - 3.54
 
-                        if (servo_duty_wrist_x > 1.5):
+				if (servo_duty_wrist_x > 1.5):
 
-                                servo_duty_wrist_x = 1.5
+					servo_duty_wrist_x = 1.5
 
-                        elif (servo_duty_wrist_x < -1.5):
+				elif (servo_duty_wrist_x < -1.5):
+				
+					servo_duty_wrist_x = -1.5
 
-                                servo_duty_wrist_x = -1.5
+				srvo_wrist_x.set(servo_duty_wrist_x)
+				#srvo_wrist_y.set(servo_duty_wrist_y)
 
-                        srvo_wrist_x.set(servo_duty_wrist_x)
-                        srvo_wrist_y.set(servo_duty_wrist_y)
-
-                        print(servo_duty_wrist_x)
+				print(servo_duty_wrist_x)
 			
 			pass
 
