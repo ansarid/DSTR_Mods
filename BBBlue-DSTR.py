@@ -13,18 +13,6 @@
 # 2. Check if rcpy installed
 # 3. config file
 
-# Servo  defaults
-duty = 0
-period = 0.02
-
-grabber_channel = 6
-roll_channel = 5
-pitch_channel = 4
-
-sweep = False
-brk = False
-free = False
-
 import time, math
 import getopt, sys
 
@@ -37,6 +25,23 @@ import rcpy.clock as clock
 import os
 import time
 import socket
+import serial
+
+
+# Servo  defaults
+duty = 0
+period = 0.02
+
+grabber_channel = 6
+roll_channel = 5
+pitch_channel = 4
+
+sweep = False
+brk = False
+free = False
+
+
+ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)  # (port, baud, timeout)
 
 user = os.getenv("SUDO_USER")
 if user is None:
@@ -192,15 +197,15 @@ try:
 				
 				elif len(data) == 4:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
+#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
 				
 				elif len(data) == 12:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
+#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
 					
 				elif len(data) != 4 and len(data) != 12:
 					
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
+#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
 
 			except socket.timeout:
 
