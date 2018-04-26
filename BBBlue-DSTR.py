@@ -151,7 +151,7 @@ motor_duty_y = 0
 # Set RCPY State to rcpy.RUNNING
 rcpy.set_state(rcpy.RUNNING)
 
-srvo = servo.Servo(channel)
+srvo = servo.Servo(wrist_x)
 
 clck = clock.Clock(srvo, period)
 
@@ -216,8 +216,10 @@ try:
 
 			motors(motor_duty_x,motor_duty_y)
 			
-			###########################################
 
+			
+			
+			
 			servo_duty_wrist_x = 0.027 * data[4] - 3.54
 
 			if (servo_duty_wrist_x > 1.5):
