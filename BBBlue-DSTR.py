@@ -9,19 +9,26 @@
 
 # To Do:
 
-# 1. Check if sudo - DONE
-# 2. Check if rcpy installed - Not working wth
+# 1. Check if sudo
+# 2. Check if rcpy installed
 # 3. config file
-# 4. Start DSTR on Boot?
-# 5. Start DSTR on SSH?
 
 # Servo  defaults
-servo_duty = 0
+duty = 0
 period = 0.02
-channel = 0
+channel = 5
 sweep = False
 brk = False
 free = False
+
+import time, math
+import getopt, sys
+
+# import rcpy library
+# This automatically initizalizes the robotics cape
+import rcpy 
+import rcpy.servo as servo
+import rcpy.clock as clock
 
 import os
 import time
@@ -106,12 +113,9 @@ except ImportError:
 		print("\nExiting!\n")
 		exit()
 
-import time, math
-import getopt, sys
+
 import rcpy
 import rcpy.motor as motor
-import rcpy.servo as servo
-import rcpy.clock as clock
 import rcpy.gpio as gpio
 import rcpy.led as led
 
@@ -127,7 +131,7 @@ UDP_PORT = 3553			# Port to Listen on
 
 # Place to Store Data
 
-bufferSize = 1024 # Yes, lots of space, will resize appropriately later.
+bufferSize = 1024 # Yes, lots of space.
 
 # Set Motors Pins
 
@@ -136,14 +140,14 @@ motor_y = 4
 
 # Initial Motor Duty Cycles
 
-motor_duty_x = 0
-motor_duty_y = 0
+duty_x = 0
+duty_y = 0
 
 # Set RCPY State to rcpy.RUNNING
+
 rcpy.set_state(rcpy.RUNNING)
 
 srvo = servo.Servo(channel)
-
 clck = clock.Clock(srvo, period)
 
 try:
@@ -158,7 +162,7 @@ try:
 
 	# start clock
 	clck.start()
-	srvo.set(servo_duty)
+	srvo.set(duty)
 	
 	while True:
 
@@ -170,20 +174,20 @@ try:
 				
 				if len(data) == 4:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3],"|  Duty: ",motor_duty_x,",",motor_duty_y, "  |   Data from DSTR App")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
 				
 				elif len(data) == 12:
 				
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"|  Duty: ",motor_duty_x,",",motor_duty_y, "   |   Data from Nunchuck Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
 					
 				elif len(data) != 4 and len(data) != 12:
 					
-					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"|  Duty: ",motor_duty_x,",",motor_duty_y, "   |   Data from Unknown Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
 
 			except socket.timeout:
 
-				motor_duty_x = 0
-				motor_duty_y = 0
+				duty_x = 0
+				duty_y = 0
 				data = 0
 				motor.set_brake(motor_x)
 				motor.set_brake(motor_y)
@@ -191,24 +195,35 @@ try:
 
 			if int(data[0]) == 187:
 
-				motor_duty_x = (int(data[3])-255)/255
+				duty_x = (int(data[3])-255)/255
 
 			elif int(data[0]) == 170:
 
-				motor_duty_x = -1*(int(data[3])-255)/255
+				duty_x = -1*(int(data[3])-255)/255
 
 			if int(data[2]) == 187:
 
-				motor_duty_y = (int(data[1])-255)/255
+				duty_y = (int(data[1])-255)/255
 
 			elif int(data[2]) == 170:
 
-				motor_duty_y = -1*(int(data[1])-255)/255
+				duty_y = -1*(int(data[1])-255)/255
 
-			motors(motor_duty_x,motor_duty_y)
+			motors(duty_x,duty_y)
 			
+			d = (0.027 * data[4] - 3.54)
+
+			if (d > 1.5):
+
+				d = 1.5
+
+			elif (d < -1.5):
+				
+				d = -1.5
+
 			srvo.set(d)
-			
+
+#			print(d)						
 			pass
 
 		# Check if Paused
@@ -219,24 +234,24 @@ try:
 			pass
 
 except KeyboardInterrupt:
-
+	
 	# Kill if Ctrl-C
-
+	
 	# stop clock
 	clck.stop()
-
-	# disable servos
+        
+        # disable servos
 	servo.disable()
-
+	
 	pass
-
+		
 finally:
-
+	
 	# stop clock
 	clck.stop()
-
-	# disable servos
+        
+        # disable servos
 	servo.disable()
-
+	
 	# Finish Program
 	print("\nExiting!")
