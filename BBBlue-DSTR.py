@@ -186,7 +186,11 @@ try:
 			
 				data, addr = sock.recvfrom(bufferSize)
 				
-				if len(data) == 4:
+				if len(data) == 0:
+				
+					print("Receiving empty packets!")
+				
+				elif len(data) == 4:
 				
 					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
 				
