@@ -217,7 +217,7 @@ try:
 			motors(motor_duty_x,motor_duty_y)
 			
 			###########################################
-			
+
 			servo_duty_wrist_x = 0.027 * data[4] - 3.54
 
 			if (servo_duty_wrist_x > 1.5):
