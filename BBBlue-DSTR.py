@@ -16,21 +16,12 @@
 # 5. Start DSTR on SSH?
 
 # Servo  defaults
-servo_home = 0
+servo_duty = 0
 period = 0.02
-
-# Servos
-base     = 1
-shoulder = 2
-elbow    = 3
-wrist_y  = 4
-wrist_x  = 5
-grabber  = 6
-
+channel = 0
 sweep = False
 brk = False
 free = False
-
 
 import os
 import time
@@ -151,7 +142,7 @@ motor_duty_y = 0
 # Set RCPY State to rcpy.RUNNING
 rcpy.set_state(rcpy.RUNNING)
 
-srvo = servo.Servo(wrist_x)
+srvo = servo.Servo(channel)
 
 clck = clock.Clock(srvo, period)
 
@@ -216,25 +207,8 @@ try:
 
 			motors(motor_duty_x,motor_duty_y)
 			
-
+			srvo.set(d)
 			
-			
-			
-			servo_duty_wrist_x = 0.027 * data[4] - 3.54
-
-			if (servo_duty_wrist_x > 1.5):
-
-				servo_duty_wrist_x = 1.5
-
-			elif (servo_duty_wrist_x < -1.5):
-
-				servo_duty_wrist_x = -1.5
-
-			srvo_wrist_x.set(servo_duty_wrist_x)
-			#srvo_wrist_y.set(servo_duty_wrist_y)
-
-			print(servo_duty_wrist_x)
-
 			pass
 
 		# Check if Paused
