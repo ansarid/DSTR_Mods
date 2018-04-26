@@ -16,7 +16,11 @@
 # Servo  defaults
 duty = 0
 period = 0.02
-channel = 5
+
+grabber_channel = 6
+roll_channel = 5
+pitch_channel = 4
+
 sweep = False
 brk = False
 free = False
@@ -147,8 +151,13 @@ duty_y = 0
 
 rcpy.set_state(rcpy.RUNNING)
 
-srvo = servo.Servo(channel)
-clck = clock.Clock(srvo, period)
+grabber_srvo = servo.Servo(grabber_channel)
+pitch_srvo = servo.Servo(pitch_channel)
+roll_srvo = servo.Servo(roll_channel)
+
+grabber_clck = clock.Clock(grabber_srvo, period)
+pitch_clck = clock.Clock(roll_srvo, period)
+roll_clck = clock.Clock(pitch_srvo, period)
 
 try:
 	# Start UDP Server
@@ -161,8 +170,13 @@ try:
 	servo.enable()
 
 	# start clock
-	clck.start()
-	srvo.set(duty)
+	grabber_clck.start()
+	pitch_clck.start()
+	roll_clck.start()
+	
+	grabber_srvo.set(duty)
+	pitch_srvo.set(duty)
+	roll_srvo.set(duty)
 	
 	while True:
 
@@ -211,19 +225,42 @@ try:
 
 			motors(duty_x,duty_y)
 			
-			d = (0.027 * data[4] - 3.54)
+			grabber_duty = data[8]
+			roll_duty = (0.027 * data[4] - 3.54)
+			pitch_duty = -1*(0.061 * data[5] - 8.7)
 
-			if (d > 1.5):
+			if (pitch_duty > 1.5):
 
-				d = 1.5
+				pitch_duty = 1.5
 
-			elif (d < -1.5):
+			elif (pitch_duty < -1.5):
 				
-				d = -1.5
+				pitch_duty = -1.5
 
-			srvo.set(d)
 
-#			print(d)						
+
+			if (roll_duty > 1.5):
+
+				roll_duty = 1.5
+
+			elif (roll_duty < -1.5):
+				
+				roll_duty = -1.5
+
+
+			if (grabber_duty == 1):
+
+				grabber_duty = -1.1
+
+			elif (grabber_duty == 0):
+				
+				grabber_duty = 1.1
+
+
+			grabber_srvo.set(grabber_duty)
+			pitch_srvo.set(pitch_duty)
+			roll_srvo.set(roll_duty)
+
 			pass
 
 		# Check if Paused
@@ -238,9 +275,10 @@ except KeyboardInterrupt:
 	# Kill if Ctrl-C
 	
 	# stop clock
-	clck.stop()
+	pitch_clck.stop()
+	roll_clck.stop()
         
-        # disable servos
+    # disable servos
 	servo.disable()
 	
 	pass
@@ -248,7 +286,8 @@ except KeyboardInterrupt:
 finally:
 	
 	# stop clock
-	clck.stop()
+	pitch_clck.stop()
+	roll_clck.stop()
         
         # disable servos
 	servo.disable()
