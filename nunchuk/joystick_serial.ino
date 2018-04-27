@@ -142,14 +142,12 @@ void nunchuck_print_data() {
 
 
 
-
-/*
     c_buttonState = c_button;
     if (c_buttonState != c_buttonStatePrevious)
     {
       if (c_buttonState == 1){
         c_buttonPushCounter++;
-        Serial.println(c_buttonPushCounter);
+//        Serial.println(c_buttonPushCounter);
       }
       c_buttonStatePrevious = c_buttonState;
     }
@@ -157,10 +155,6 @@ void nunchuck_print_data() {
     if (c_buttonPushCounter % 3 == 0){
       
     }
-
-
-*/
-
 
 
 
@@ -232,7 +226,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
     Serial.write(accel_y_axis);
     Serial.write(accel_z_axis);
     
-    Serial.write(c_button);
+    Serial.write(c_buttonPushCounter);
     Serial.write(z_button);
     
     Serial.write(grabberState);
@@ -254,7 +248,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
       Serial.write(accel_y_axis);
       Serial.write(accel_z_axis);
       
-      Serial.write(c_button);
+      Serial.write(c_buttonPushCounter);
       Serial.write(z_button);
       
       Serial.write(grabberState);
@@ -274,7 +268,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
       Serial.write(accel_y_axis);
       Serial.write(accel_z_axis);
       
-      Serial.write(c_button);
+      Serial.write(c_buttonPushCounter);
       Serial.write(z_button);
       
       Serial.write(grabberState);
@@ -298,7 +292,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
       Serial.write(accel_y_axis);
       Serial.write(accel_z_axis);
       
-      Serial.write(c_button);
+      Serial.write(c_buttonPushCounter);
       Serial.write(z_button);
       
       Serial.write(grabberState);
@@ -318,7 +312,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
       Serial.write(accel_y_axis);
       Serial.write(accel_z_axis);
       
-      Serial.write(c_button);
+      Serial.write(c_buttonPushCounter);
       Serial.write(z_button);
       
       Serial.write(grabberState);
@@ -340,7 +334,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
     Serial.write(accel_y_axis);
     Serial.write(accel_z_axis);
     
-    Serial.write(c_button);
+    Serial.write(c_buttonPushCounter);
     Serial.write(z_button);
     
     Serial.write(grabberState);
@@ -360,7 +354,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
     Serial.write(accel_y_axis);
     Serial.write(accel_z_axis);
     
-    Serial.write(c_button);
+    Serial.write(c_buttonPushCounter);
     Serial.write(z_button);
     
     Serial.write(grabberState);
