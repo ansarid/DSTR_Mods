@@ -385,11 +385,11 @@ try:
 			#print(roll_duty, pitch_duty)
 
 
-			if (grabber_duty == 1):
+			if (grabber_duty == 1): #  and data[7] > 1
 
 				grabber_duty = -1.5
 
-			elif (grabber_duty == 2):
+			elif (grabber_duty == 2): #  and data[7] > 1
 				
 				grabber_duty = 0.6
 
