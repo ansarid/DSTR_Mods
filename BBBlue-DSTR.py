@@ -42,16 +42,16 @@ grabber_channel	= 6
 base_dock		= 0
 shoulder_dock	= -1.5
 elbow_dock		= 1.5
-pitch_dock		= -1.1
+pitch_dock		= -0.5
 roll_dock		= 0
 grabber_dock	= -1.1
 
 base_ready		= 0
 shoulder_ready	= -0.7
 elbow_ready		= 0.5
-pitch_ready		= -1.1
+pitch_ready		= -0.6
 roll_ready		= 0
-grabber_ready	= 1.1
+grabber_ready	= 0.1
 
 serial_input = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)  # (port, baud, timeout)
 
@@ -240,17 +240,17 @@ try:
 				
 					print("Receiving empty packets!")
 				
-#				elif len(data) == 4:
+				elif len(data) == 4:
+			
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
 				
-#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0],"  ", data[1],"  ", data[2],"  ", data[3], "  |   Data from DSTR App")
+				elif len(data) == 12:
 				
-#				elif len(data) == 12:
-				
-#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Nunchuck Device")
 					
-#				elif len(data) != 4 and len(data) != 12:
+				elif len(data) != 4 and len(data) != 12:
 					
-#					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
+					print(time.time(),"\t",len(data),"\t","|   Data:  ", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11],"   |   Data from Unknown Device")
 
 			except socket.timeout:
 
@@ -263,7 +263,7 @@ try:
 
 			if int(data[0]) == 187:
 
-				duty_x = (int(data[3])-255)/255
+				duty_x = 1*(int(data[3])-255)/255
 
 			elif int(data[0]) == 170:
 
@@ -273,11 +273,13 @@ try:
 
 			if int(data[2]) == 187:
 
-				duty_y = (int(data[1])-255)/255
+				duty_y = 1*(int(data[1])-255)/255
 
 			elif int(data[2]) == 170:
 
 				duty_y = -1*(int(data[1])-255)/255
+
+#			print(duty_x,duty_y)
 
 			motors(duty_x,duty_y)
 			
@@ -285,7 +287,25 @@ try:
 			shoulder_duty = -0.7
 			elbow_duty = 0.5
 			pitch_duty = -1*(0.061 * data[5] - 8.7)
-			roll_duty = (0.027 * data[4] - 3.54)
+			roll_duty = 0
+
+			if data[4] > 180:
+				
+				
+				roll_duty = roll_duty + 0.01
+				
+				#roll_duty = (0.027 * data[4] - 3.54)
+			
+			if data[4] < 90:
+				
+				roll_duty = roll_duty + 0.01
+			
+			
+			
+			
+			
+			
+			
 			grabber_duty = data[8]
 
 			if (base_duty > 1.5):
@@ -337,11 +357,11 @@ try:
 
 			if (grabber_duty == 1):
 
-				grabber_duty = -1.1
+				grabber_duty = -1.5
 
-			elif (grabber_duty == 0):
+			elif (grabber_duty == 2):
 				
-				grabber_duty = 1.1
+				grabber_duty = 0.6
 
 			base_srvo.set(base_duty)
 			shoulder_srvo.set(shoulder_duty)
