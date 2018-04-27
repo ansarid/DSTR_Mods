@@ -303,13 +303,13 @@ try:
 				base_duty = base_duty + 0.1	
 			
 			
-			if data[5] > 150:
+			if data[5] > 150 and data[7] > 1:
 			
 				pitch_duty = pitch_duty - 0.15
 				
 				#roll_duty = (0.027 * data[4] - 3.54)
 			
-			elif data[5] < 100:
+			elif data[5] < 100 and data[7] > 1:
 				
 				pitch_duty = pitch_duty - 0.15
 			
@@ -317,13 +317,13 @@ try:
 			
 			
 			
-			if data[4] > 180:
+			if data[4] > 180 and data[7] > 1:
 				
 				roll_duty = roll_duty + 0.15
 				
 				#roll_duty = (0.027 * data[4] - 3.54)
 			
-			elif data[4] < 90:
+			elif data[4] < 90 and data[7] > 1:
 				
 				roll_duty = roll_duty - 0.15
 			
