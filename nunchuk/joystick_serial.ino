@@ -49,6 +49,10 @@ int yServoSelect = 2; // 2-5, Corresponds to servo channels on BeagleBone Blue.
 
 int grabberState = 0; // 0 = Open, 1 = Close, Is grabber open or closed?
 
+int c_buttonState = 0;
+int c_buttonStatePrevious = 0;
+int c_buttonPushCounter;
+
 void setup() {
   Serial.begin(38400);
 
@@ -135,6 +139,35 @@ void nunchuck_print_data() {
     z_button = 0;
   if ((nunchuck_buf[5] >> 1) & 1)
     c_button = 0;
+    /*c_buttonState = c_button;
+    if (c_buttonState != c_buttonStatePrevious)
+    {
+      if (c_buttonState == 1)
+      {
+        c_buttonPushCounter++;
+        Serial.println(c_buttonPushCounter);
+      }
+      c_buttonStatePrevious = c_buttonState;
+    }
+    
+    if (c_buttonPushCounter % 3 == 0)
+    {
+      
+    }
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
 
   if ((nunchuck_buf[5] >> 2) & 1) 
     accel_x_axis += 2;
@@ -194,22 +227,22 @@ void nunchuck_print_data() {
 if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
   if ( ( joy_x_axis_direction < 8 && joy_x_axis_direction > -8 ) && ( joy_y_axis_direction < 8 && joy_y_axis_direction > -8 ) ) {
-  
-    Serial.write(187);
-    Serial.write(254);
-    Serial.write(187);
-    Serial.write(254);
+  /*
+    Serial.print(187);
+    Serial.print(254);
+    Serial.print(187);
+    Serial.print(254);
     
-    Serial.write(accel_x_axis);
-    Serial.write(accel_y_axis);
-    Serial.write(accel_z_axis);
+    Serial.print(accel_x_axis);
+    Serial.print(accel_y_axis);
+    Serial.print(accel_z_axis);
+    */
+  //  Serial.print(c_button);
+   // Serial.println(z_button);
     
-    Serial.write(c_button);
-    Serial.write(z_button);
-    
-    Serial.write(grabberState);
-    Serial.write(armMode);
-    Serial.write(yServoSelect);
+    //Serial.print(grabberState);
+   // Serial.print(armMode);
+   // Serial.print(yServoSelect);
 
   }
 
@@ -217,41 +250,41 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
     if (joy_x_axis_direction < 0) {
     
-      Serial.write(170);
-      Serial.write(throttle);
-      Serial.write(170);
-      Serial.write(angle);
+      Serial.print(170);
+      Serial.print(throttle);
+      Serial.print(170);
+      Serial.print(angle);
 
-      Serial.write(accel_x_axis);
-      Serial.write(accel_y_axis);
-      Serial.write(accel_z_axis);
+      Serial.print(accel_x_axis);
+      Serial.print(accel_y_axis);
+      Serial.print(accel_z_axis);
       
-      Serial.write(c_button);
-      Serial.write(z_button);
+      Serial.print(c_button);
+      Serial.print(z_button);
       
-      Serial.write(grabberState);
-      Serial.write(armMode);
-      Serial.write(yServoSelect);
+      Serial.print(grabberState);
+      Serial.print(armMode);
+      Serial.print(yServoSelect);
     
     }
 
     else if (joy_x_axis_direction > 0) {
     
-      Serial.write(170);
-      Serial.write(angle);
-      Serial.write(170);
-      Serial.write(throttle);
+      Serial.print(170);
+      Serial.print(angle);
+      Serial.print(170);
+      Serial.print(throttle);
 
-      Serial.write(accel_x_axis);
-      Serial.write(accel_y_axis);
-      Serial.write(accel_z_axis);
+      Serial.print(accel_x_axis);
+      Serial.print(accel_y_axis);
+      Serial.print(accel_z_axis);
       
-      Serial.write(c_button);
-      Serial.write(z_button);
+      Serial.print(c_button);
+      Serial.print(z_button);
       
-      Serial.write(grabberState);
-      Serial.write(armMode);
-      Serial.write(yServoSelect);
+      Serial.print(grabberState);
+      Serial.print(armMode);
+      Serial.print(yServoSelect);
     
     }
     
@@ -261,41 +294,41 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
     if (joy_x_axis_direction < 0) {
     
-      Serial.write(187);
-      Serial.write(throttle);
-      Serial.write(187);
-      Serial.write(angle);
+      Serial.print(187);
+      Serial.print(throttle);
+      Serial.print(187);
+      Serial.print(angle);
 
-      Serial.write(accel_x_axis);
-      Serial.write(accel_y_axis);
-      Serial.write(accel_z_axis);
+      Serial.print(accel_x_axis);
+      Serial.print(accel_y_axis);
+      Serial.print(accel_z_axis);
       
-      Serial.write(c_button);
-      Serial.write(z_button);
+      Serial.print(c_button);
+      Serial.print(z_button);
       
-      Serial.write(grabberState);
-      Serial.write(armMode);
-      Serial.write(yServoSelect);
+      Serial.print(grabberState);
+      Serial.print(armMode);
+      Serial.print(yServoSelect);
     
     }
     
     else if (joy_x_axis_direction > 0) {
     
-      Serial.write(187);
-      Serial.write(angle);
-      Serial.write(187);
-      Serial.write(throttle);
+      Serial.print(187);
+      Serial.print(angle);
+      Serial.print(187);
+      Serial.print(throttle);
       
-      Serial.write(accel_x_axis);
-      Serial.write(accel_y_axis);
-      Serial.write(accel_z_axis);
+      Serial.print(accel_x_axis);
+      Serial.print(accel_y_axis);
+      Serial.print(accel_z_axis);
       
-      Serial.write(c_button);
-      Serial.write(z_button);
+      Serial.print(c_button);
+      Serial.print(z_button);
       
-      Serial.write(grabberState);
-      Serial.write(armMode);
-      Serial.write(yServoSelect);
+      Serial.print(grabberState);
+      Serial.print(armMode);
+      Serial.print(yServoSelect);
     
     }
 
@@ -303,41 +336,41 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
   else if (joy_x_axis_direction > 0) {
     
-    Serial.write(170);
-    Serial.write(throttle);
-    Serial.write(187);
-    Serial.write(angle);
+    Serial.print(170);
+    Serial.print(throttle);
+    Serial.print(187);
+    Serial.print(angle);
     
-    Serial.write(accel_x_axis);
-    Serial.write(accel_y_axis);
-    Serial.write(accel_z_axis);
+    Serial.print(accel_x_axis);
+    Serial.print(accel_y_axis);
+    Serial.print(accel_z_axis);
     
-    Serial.write(c_button);
-    Serial.write(z_button);
+    Serial.print(c_button);
+    Serial.print(z_button);
     
-    Serial.write(grabberState);
-    Serial.write(armMode);
-    Serial.write(yServoSelect);
+    Serial.print(grabberState);
+    Serial.print(armMode);
+    Serial.print(yServoSelect);
   
   }
 
   else if (joy_x_axis_direction < 0) {
   
-    Serial.write(187);
-    Serial.write(angle);
-    Serial.write(170);
-    Serial.write(throttle);
+    Serial.print(187);
+    Serial.print(angle);
+    Serial.print(170);
+    Serial.print(throttle);
     
-    Serial.write(accel_x_axis);
-    Serial.write(accel_y_axis);
-    Serial.write(accel_z_axis);
+    Serial.print(accel_x_axis);
+    Serial.print(accel_y_axis);
+    Serial.print(accel_z_axis);
     
-    Serial.write(c_button);
-    Serial.write(z_button);
+    Serial.print(c_button);
+    Serial.print(z_button);
     
-    Serial.write(grabberState);
-    Serial.write(armMode);
-    Serial.write(yServoSelect);
+    Serial.print(grabberState);
+    Serial.print(armMode);
+    Serial.print(yServoSelect);
   
   }
 
