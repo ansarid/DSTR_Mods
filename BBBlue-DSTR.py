@@ -53,6 +53,11 @@ pitch_ready		= -0.6
 roll_ready		= 0
 grabber_ready	= 0.1
 
+
+base_duty = 0
+pitch_duty = 0
+roll_duty = 0
+
 serial_input = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)  # (port, baud, timeout)
 
 user = os.getenv("SUDO_USER")
@@ -70,7 +75,7 @@ except ImportError:
     
 	if permission.lower == "y":
 		print("Installing missing packages!")
-		os.sys("sudo apt-get update && sudo apt-get install roboticscape -y && sudo apt-get upgrade roboticscape -y && sudo apt-get install python3 python3-pip -y && sudo pip3 install rcpy && sudo pip3 install numpy")
+		os.sys("sudo apt-get update and sudo apt-get install roboticscape -y and sudo apt-get upgrade roboticscape -y and sudo apt-get install python3 python3-pip -y and sudo pip3 install rcpy and sudo pip3 install numpy")
 		
 		# Configure Network
 		
@@ -281,32 +286,54 @@ try:
 
 #			print(duty_x,duty_y)
 
-			motors(duty_x,duty_y)
+#			motors(duty_x,duty_y)
 			
-			base_duty = 0
 			shoulder_duty = -0.7
 			elbow_duty = 0.5
-			pitch_duty = -1*(0.061 * data[5] - 8.7)
-			roll_duty = 0
+			
+			
+			
+			if data[0] == 170 and data[0] != data[2] and data[7] > 1:
 
-			if data[4] > 180:
-				
-				
-				roll_duty = roll_duty + 0.01
+				base_duty = base_duty - 0.1	
+			
+			
+			elif data[2] == 170 and data[0] != data[2] and data[7] > 1:
+
+				base_duty = base_duty + 0.1	
+			
+			
+			if data[5] > 150:
+			
+				pitch_duty = pitch_duty - 0.15
 				
 				#roll_duty = (0.027 * data[4] - 3.54)
 			
-			if data[4] < 90:
+			elif data[5] < 100:
 				
-				roll_duty = roll_duty + 0.01
+				pitch_duty = pitch_duty - 0.15
 			
 			
+			
+			
+			
+			if data[4] > 180:
+				
+				roll_duty = roll_duty + 0.15
+				
+				#roll_duty = (0.027 * data[4] - 3.54)
+			
+			elif data[4] < 90:
+				
+				roll_duty = roll_duty - 0.15
 			
 			
 			
 			
 			
 			grabber_duty = data[8]
+
+
 
 			if (base_duty > 1.5):
 
@@ -353,6 +380,9 @@ try:
 			elif (roll_duty < -1.5):
 				
 				roll_duty = -1.5
+
+
+			#print(roll_duty, pitch_duty)
 
 
 			if (grabber_duty == 1):
