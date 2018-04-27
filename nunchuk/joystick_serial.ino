@@ -144,20 +144,11 @@ void nunchuck_print_data() {
   if ((nunchuck_buf[5] >> 1) & 1)
     c_button = 0;
 
-
-
-
-
-
-
-
-
     c_buttonState = c_button;
     if (c_buttonState != c_buttonStatePrevious)
     {
       if (c_buttonState == 1){
         c_buttonPushCounter++;
-//        Serial.println(c_buttonPushCounter);
       }
       c_buttonStatePrevious = c_buttonState;
     }
@@ -166,19 +157,11 @@ void nunchuck_print_data() {
       
     }
 
-
-
-
-
-
-
-
     z_buttonState = z_button;
     if (z_buttonState != z_buttonStatePrevious)
     {
       if (z_buttonState == 1){
         z_buttonPushCounter++;
-//        Serial.println(z_buttonPushCounter);
       }
       z_buttonStatePrevious = z_buttonState;
     }
@@ -187,11 +170,13 @@ void nunchuck_print_data() {
       
     }
 
+  if (c_buttonPushCounter > 3){
+    c_buttonPushCounter = 1;
+    }
 
-
-
-
-
+  if (z_buttonPushCounter > 2){
+    z_buttonPushCounter = 1;
+    }
 
   if ((nunchuck_buf[5] >> 2) & 1) 
     accel_x_axis += 2;
