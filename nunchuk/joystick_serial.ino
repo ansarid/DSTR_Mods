@@ -53,6 +53,10 @@ int c_buttonState = 0;
 int c_buttonStatePrevious = 0;
 int c_buttonPushCounter;
 
+int z_buttonState = 0;
+int z_buttonStatePrevious = 0;
+int z_buttonPushCounter;
+
 void setup() {
   Serial.begin(38400);
 
@@ -142,6 +146,12 @@ void nunchuck_print_data() {
 
 
 
+
+
+
+
+
+
     c_buttonState = c_button;
     if (c_buttonState != c_buttonStatePrevious)
     {
@@ -155,6 +165,31 @@ void nunchuck_print_data() {
     if (c_buttonPushCounter % 3 == 0){
       
     }
+
+
+
+
+
+
+
+
+    z_buttonState = z_button;
+    if (z_buttonState != z_buttonStatePrevious)
+    {
+      if (z_buttonState == 1){
+        z_buttonPushCounter++;
+//        Serial.println(z_buttonPushCounter);
+      }
+      z_buttonStatePrevious = z_buttonState;
+    }
+    
+    if (z_buttonPushCounter % 3 == 0){
+      
+    }
+
+
+
+
 
 
 
@@ -227,7 +262,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
     Serial.write(accel_z_axis);
     
     Serial.write(c_buttonPushCounter);
-    Serial.write(z_button);
+    Serial.write(z_buttonPushCounter);
     
     Serial.write(grabberState);
     Serial.write(armMode);
