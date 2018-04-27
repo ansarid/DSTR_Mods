@@ -149,7 +149,7 @@ void nunchuck_print_data() {
     {
       if (c_buttonState == 1){
         c_buttonPushCounter++;
-        Serial.write(c_buttonPushCounter);
+        Serial.println(c_buttonPushCounter);
       }
       c_buttonStatePrevious = c_buttonState;
     }
