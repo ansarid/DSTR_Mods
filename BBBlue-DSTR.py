@@ -55,6 +55,8 @@ grabber_ready	= 0.1
 
 
 base_duty = 0
+shoulder_duty = -0.7
+elbow_duty = 0.5
 pitch_duty = 0
 roll_duty = 0
 
@@ -284,34 +286,33 @@ try:
 
 				duty_y = -1*(int(data[1])-255)/255
 
-#			print(duty_x,duty_y)
 
-#			motors(duty_x,duty_y)
+			if data[7] == 1:
+				
+				dock_arm()
+				
+				motors(duty_x,duty_y)
 			
-			shoulder_duty = -0.7
-			elbow_duty = 0.5
-			
-			
+			else:
+				
+				pass
 			
 			if data[0] == 170 and data[0] != data[2] and data[7] > 1:
 
-				base_duty = base_duty - 0.1	
-			
+				base_duty = base_duty - 0.05	
 			
 			elif data[2] == 170 and data[0] != data[2] and data[7] > 1:
 
-				base_duty = base_duty + 0.1	
+				base_duty = base_duty + 0.05	
 			
 			
 			if data[5] > 150 and data[7] > 1:
 			
 				pitch_duty = pitch_duty - 0.15
 				
-				#roll_duty = (0.027 * data[4] - 3.54)
-			
 			elif data[5] < 100 and data[7] > 1:
 				
-				pitch_duty = pitch_duty - 0.15
+				pitch_duty = pitch_duty + 0.15
 			
 			
 			
@@ -321,17 +322,34 @@ try:
 				
 				roll_duty = roll_duty + 0.15
 				
-				#roll_duty = (0.027 * data[4] - 3.54)
-			
 			elif data[4] < 90 and data[7] > 1:
 				
 				roll_duty = roll_duty - 0.15
 			
+
+
+			
+			if data[7] == 2 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
+				
+				shoulder_duty = shoulder_duty + 0.1
+				
+			elif data[7] == 2 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
+				
+				shoulder_duty = shoulder_duty - 0.1
+
+
+			if data[7] == 3 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
+				
+				elbow_duty = elbow_duty - 0.1
+				
+			elif data[7] == 3 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
+				
+				elbow_duty = elbow_duty + 0.1
+
+
+
 			
 			
-			
-			
-			grabber_duty = data[8]
 
 
 
@@ -354,13 +372,13 @@ try:
 				shoulder_duty = -1.5
 
 
-			if (elbow_duty == 1):
+			if (elbow_duty > 1.5):
 
-				elbow_duty = -1.1
+				elbow_duty = 1.5
 
-			elif (elbow_duty == 0):
+			elif (elbow_duty < -1.5):
 				
-				elbow_duty = 1.1
+				elbow_duty = -1.5
 
 
 			if (pitch_duty > 1.5):
@@ -382,8 +400,8 @@ try:
 				roll_duty = -1.5
 
 
-			#print(roll_duty, pitch_duty)
 
+			grabber_duty = data[8]
 
 			if (grabber_duty == 1): #  and data[7] > 1
 
