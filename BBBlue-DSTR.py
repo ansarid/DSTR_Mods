@@ -47,9 +47,9 @@ roll_dock		= 0
 grabber_dock	= -1.1
 
 base_ready		= 0
-shoulder_ready	= -0.7
+shoulder_ready	= 0.7
 elbow_ready		= 0.5
-pitch_ready		= -0.6
+pitch_ready		= 0
 roll_ready		= 0
 grabber_ready	= 0.1
 
@@ -60,7 +60,7 @@ elbow_duty = 0.5
 pitch_duty = 0
 roll_duty = 0
 
-serial_input = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)  # (port, baud, timeout)
+#serial_input = serial.Serial('/dev/ttyUSB0', 115200, timeout=3)  # (port, baud, timeout)
 
 user = os.getenv("SUDO_USER")
 if user is None:
@@ -306,7 +306,7 @@ try:
 				base_duty = base_duty + 0.05	
 			
 			
-			if data[5] > 150 and data[7] > 1:
+			if data[5] > 140 and data[7] > 1:
 			
 				pitch_duty = pitch_duty - 0.15
 				
@@ -331,11 +331,11 @@ try:
 			
 			if data[7] == 2 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
 				
-				shoulder_duty = shoulder_duty + 0.1
+				shoulder_duty = shoulder_duty - 0.1
 				
 			elif data[7] == 2 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
 				
-				shoulder_duty = shoulder_duty - 0.1
+				shoulder_duty = shoulder_duty + 0.1
 
 
 			if data[7] == 3 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
@@ -411,6 +411,7 @@ try:
 				
 				grabber_duty = 0.6
 
+
 			base_srvo.set(base_duty)
 			shoulder_srvo.set(shoulder_duty)
 			elbow_srvo.set(elbow_duty)
@@ -431,7 +432,7 @@ except KeyboardInterrupt:
 	
 	# Kill if Ctrl-C
 	
-	dock_arm()
+#	dock_arm()
 	
 	time.sleep(1)
 	
@@ -450,7 +451,7 @@ except KeyboardInterrupt:
 		
 finally:
 	
-	dock_arm()
+#	dock_arm()
 	
 	# stop clock
 	base_clck.stop()
