@@ -35,6 +35,18 @@
 #include <Wire.h>
 #include <math.h>
 
+#define LED3_RED 2
+#define LED2_RED 3
+#define LED1_RED 4
+
+#define LED3_GREEN 5
+#define LED2_GREEN 6
+#define LED1_GREEN 7
+
+#define LED3_BLUE 8
+#define LED2_BLUE 9
+#define LED1_BLUE 10
+
 static uint8_t nunchuck_buf[6];   // array to store nunchuck data,
 static uint8_t nunchuck_data[4];
 
@@ -49,8 +61,8 @@ int yServoSelect = 2; // 2-5, Corresponds to servo channels on BeagleBone Blue.
 
 int grabberState = 0; // 0 = Open, 1 = Close, Is grabber open or closed?
 
-int c_buttonState = 0;
-int c_buttonStatePrevious = 0;
+int c_buttonState = 1;
+int c_buttonStatePrevious = 1;
 int c_buttonPushCounter;
 
 int z_buttonState = 0;
@@ -59,12 +71,26 @@ int z_buttonPushCounter;
 
 void setup() {
   Serial.begin(38400);
+  
+  pinMode(LED3_RED, OUTPUT);
+  pinMode(LED2_RED, OUTPUT);
+  pinMode(LED1_RED, OUTPUT);
+
+  pinMode(LED3_GREEN, OUTPUT);
+  pinMode(LED2_GREEN, OUTPUT);
+  pinMode(LED1_GREEN, OUTPUT);
+
+  pinMode(LED3_BLUE, OUTPUT);
+  pinMode(LED2_BLUE, OUTPUT);
+  pinMode(LED1_BLUE, OUTPUT);
 
   nunchuck_setpowerpins(); // use analog pins 2&3 as fake gnd & pwr
   nunchuck_init(); // send the initilization handshake
 }
 
 void loop() {
+
+//  digitalWrite(LED, HIGH);
   nunchuck_get_data();
 
   // map nunchuk data to a servo data point
@@ -221,22 +247,140 @@ void nunchuck_print_data() {
     else{
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
   // For finding Direction
 
   int joy_x_axis_direction = 2.55 * (nunchuck_buf[0]) - 331.5;
   int joy_y_axis_direction = 2.55 * (nunchuck_buf[1]) - 331.5;
 
-  int joy_x_axis_throttle = 255 - (abs(2.55 * (nunchuck_buf[0]) - 331.5));
-  int joy_y_axis_throttle = 255 - (abs(2.55 * (nunchuck_buf[1]) - 331.5));
+//  int joy_x_axis_direction = nunchuck_buf[0];
+//  int joy_y_axis_direction = nunchuck_buf[1];
+
+
+
+//  int joy_x_axis_throttle = 255 - (abs(0.9844559585 * (nunchuck_buf[0]) - 3.419689119));
+//  int joy_y_axis_throttle = 255 - (abs(0.9844559585 * (nunchuck_buf[1]) - 3.419689119));
+
+  int joy_x_axis_throttle = 255 - abs(map(nunchuck_buf[0], 27, 220, -255, 255)); //map(value, fromLow, fromHigh, toLow, toHigh)
+  int joy_y_axis_throttle = 255 - abs(map(nunchuck_buf[1], 30, 220, -255, 255));     //map(value, fromLow, fromHigh, toLow, toHigh)
+
+  if(joy_x_axis_throttle > 230){
+
+    joy_x_axis_throttle = 254;
+    
+    }
+
+    else{
+
+      joy_x_axis_throttle = abs(joy_x_axis_throttle);  
+      
+    }
+
+    if(joy_y_axis_throttle > 240){
+
+    joy_y_axis_throttle = 254;
+    
+    }
+
+    else{
+      joy_y_axis_throttle = abs(joy_y_axis_throttle);  
+    }
+
+
+
+    
+
+
+//  int joy_x_axis_throttle = nunchuck_buf[0];
+//  int joy_y_axis_throttle = nunchuck_buf[1];
+
+
+
+//  Serial.write(joy_x_axis_throttle);
+//  Serial.write(",");
+//  Serial.writeln(joy_y_axis_throttle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   int throttle = 255 - ( sqrt( sq ( 255 - joy_x_axis_throttle ) + sq ( 255 - joy_y_axis_throttle ) ) );
 
+//Serial.print(joy_x_axis_direction);
+//Serial.print(",");
+//Serial.println(joy_y_axis_direction);
+
+if (c_buttonPushCounter == 1){
+
+   digitalWrite(LED1_BLUE,HIGH);
+   digitalWrite(LED2_GREEN,LOW);
+   digitalWrite(LED3_GREEN,LOW);
+  
+  }
+
+else if (c_buttonPushCounter == 2){
+
+   digitalWrite(LED1_BLUE,LOW);
+   digitalWrite(LED2_GREEN,HIGH);
+   digitalWrite(LED3_GREEN,LOW);
+    
+  }
+
+else if (c_buttonPushCounter == 3){
+   
+   digitalWrite(LED1_BLUE,LOW);
+   digitalWrite(LED2_GREEN,LOW);
+   digitalWrite(LED3_GREEN,HIGH);
+    
+  }
 
 if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
-  if ( ( joy_x_axis_direction < 8 && joy_x_axis_direction > -8 ) && ( joy_y_axis_direction < 8 && joy_y_axis_direction > -8 ) ) {
-  
+//  if ( ( joy_x_axis_direction > -25 && joy_x_axis_direction < 5 ) && ( joy_y_axis_direction > -20 && joy_y_axis_direction < -2 ) ) {
+    
+  if ( ( joy_x_axis_direction > -30 && joy_x_axis_direction < 5 ) && ( joy_y_axis_direction > -20 && joy_y_axis_direction < -2 ) ) {
+
+
+//    Serial.print(187);Serial.print(",");
+//    Serial.print(254);Serial.print(",");
+//    Serial.print(187);Serial.print(",");
+//    Serial.println(254);
+
     Serial.write(187);
     Serial.write(254);
     Serial.write(187);
