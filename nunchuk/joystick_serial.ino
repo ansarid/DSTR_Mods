@@ -250,26 +250,6 @@ void nunchuck_print_data() {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
   // For finding Direction
 
   int joy_x_axis_direction = 2.55 * (nunchuck_buf[0]) - 331.5;
@@ -277,9 +257,7 @@ void nunchuck_print_data() {
 
 //  int joy_x_axis_direction = nunchuck_buf[0];
 //  int joy_y_axis_direction = nunchuck_buf[1];
-
-
-
+  
 //  int joy_x_axis_throttle = 255 - (abs(0.9844559585 * (nunchuck_buf[0]) - 3.419689119));
 //  int joy_y_axis_throttle = 255 - (abs(0.9844559585 * (nunchuck_buf[1]) - 3.419689119));
 
@@ -305,41 +283,17 @@ void nunchuck_print_data() {
     }
 
     else{
+
       joy_y_axis_throttle = abs(joy_y_axis_throttle);  
-    }
-
-
-
     
-
+    }
 
 //  int joy_x_axis_throttle = nunchuck_buf[0];
 //  int joy_y_axis_throttle = nunchuck_buf[1];
 
-
-
 //  Serial.write(joy_x_axis_throttle);
 //  Serial.write(",");
 //  Serial.writeln(joy_y_axis_throttle);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
   int throttle = 255 - ( sqrt( sq ( 255 - joy_x_axis_throttle ) + sq ( 255 - joy_y_axis_throttle ) ) );
 
