@@ -61,13 +61,15 @@ int yServoSelect = 2; // 2-5, Corresponds to servo channels on BeagleBone Blue.
 
 int grabberState = 0; // 0 = Open, 1 = Close, Is grabber open or closed?
 
+int side_button = 2; // SIDE BUTTON ANALOG PIN
+
 int c_buttonState = 1;
 int c_buttonStatePrevious = 1;
-int c_buttonPushCounter;
+int c_buttonPushCounter = 1;
 
-int z_buttonState = 0;
-int z_buttonStatePrevious = 0;
-int z_buttonPushCounter;
+int z_buttonState = 1;
+int z_buttonStatePrevious = 1;
+int z_buttonPushCounter = 1;
 
 void setup() {
   Serial.begin(38400);
