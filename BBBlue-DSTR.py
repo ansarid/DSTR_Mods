@@ -25,7 +25,7 @@ import rcpy.clock as clock
 import os
 import time
 import socket
-import serial
+#import serial
 
 
 # Servo  defaults
@@ -268,158 +268,169 @@ try:
 				motor.set_brake(motor_y)
 				continue
 
-			if int(data[0]) == 187:
+			try:
+			    gotdata = data[0]
+			except IndexError:
+			    gotdata = 'null'
 
-				duty_x = 1*(int(data[3])-255)/255
-
-			elif int(data[0]) == 170:
-
-				duty_x = -1*(int(data[3])-255)/255
-
-			
-
-			if int(data[2]) == 187:
-
-				duty_y = 1*(int(data[1])-255)/255
-
-			elif int(data[2]) == 170:
-
-				duty_y = -1*(int(data[1])-255)/255
-
-
-			if data[7] == 1:
+			if gotdata == 187: 
+		
+				if int(data[0]) == 187:
+	
+					duty_x = 1*(int(data[3])-255)/255
+	
+				elif int(data[0]) == 170:
+	
+					duty_x = -1*(int(data[3])-255)/255
+	
 				
-				dock_arm()
+	
+				if int(data[2]) == 187:
+	
+					duty_y = 1*(int(data[1])-255)/255
+	
+				elif int(data[2]) == 170:
+	
+					duty_y = -1*(int(data[1])-255)/255
+	
+	
+				if data[7] == 1:
+					
+					dock_arm()
+					
+					motors(duty_x,duty_y)
 				
-				motors(duty_x,duty_y)
-			
+				else:
+					
+					pass
+				
+				if data[0] == 170 and data[0] != data[2] and data[7] > 1:
+	
+					base_duty = base_duty - 0.05	
+				
+				elif data[2] == 170 and data[0] != data[2] and data[7] > 1:
+	
+					base_duty = base_duty + 0.05	
+				
+				
+				if data[5] > 140 and data[7] > 1:
+				
+					pitch_duty = pitch_duty - 0.15
+					
+				elif data[5] < 100 and data[7] > 1:
+					
+					pitch_duty = pitch_duty + 0.15
+				
+				
+				
+				
+				
+				if data[4] > 180 and data[7] > 1:
+					
+					roll_duty = roll_duty + 0.15
+					
+				elif data[4] < 90 and data[7] > 1:
+					
+					roll_duty = roll_duty - 0.15
+				
+	
+	
+				
+				if data[7] == 2 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
+					
+					shoulder_duty = shoulder_duty - 0.1
+					
+				elif data[7] == 2 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
+					
+					shoulder_duty = shoulder_duty + 0.1
+	
+	
+				if data[7] == 3 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
+					
+					elbow_duty = elbow_duty - 0.1
+					
+				elif data[7] == 3 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
+					
+					elbow_duty = elbow_duty + 0.1
+	
+	
+	
+				
+				
+	
+	
+	
+				if (base_duty > 1.5):
+	
+					base_duty = 1.5
+	
+				elif (base_duty < -1.5):
+					
+					base_duty = -1.5
+	
+	
+	
+				if (shoulder_duty > 1.5):
+	
+					shoulder_duty = 1.5
+	
+				elif (shoulder_duty < -1.5):
+					
+					shoulder_duty = -1.5
+	
+	
+				if (elbow_duty > 1.5):
+	
+					elbow_duty = 1.5
+	
+				elif (elbow_duty < -1.5):
+					
+					elbow_duty = -1.5
+	
+	
+				if (pitch_duty > 1.5):
+	
+					pitch_duty = 1.5
+	
+				elif (pitch_duty < -1.5):
+					
+					pitch_duty = -1.5
+	
+	
+	
+				if (roll_duty > 1.5):
+	
+					roll_duty = 1.5
+	
+				elif (roll_duty < -1.5):
+					
+					roll_duty = -1.5
+	
+	
+	
+				grabber_duty = data[8]
+	
+				if (grabber_duty == 1): #  and data[7] > 1
+	
+					grabber_duty = -1.5
+	
+				elif (grabber_duty == 2): #  and data[7] > 1
+					
+					grabber_duty = 0.6
+	
+	
+				base_srvo.set(base_duty)
+				shoulder_srvo.set(shoulder_duty)
+				elbow_srvo.set(elbow_duty)
+				pitch_srvo.set(pitch_duty)
+				roll_srvo.set(roll_duty)
+				grabber_srvo.set(grabber_duty)
+				
+				pass
+
 			else:
 				
 				pass
-			
-			if data[0] == 170 and data[0] != data[2] and data[7] > 1:
-
-				base_duty = base_duty - 0.05	
-			
-			elif data[2] == 170 and data[0] != data[2] and data[7] > 1:
-
-				base_duty = base_duty + 0.05	
-			
-			
-			if data[5] > 140 and data[7] > 1:
-			
-				pitch_duty = pitch_duty - 0.15
-				
-			elif data[5] < 100 and data[7] > 1:
-				
-				pitch_duty = pitch_duty + 0.15
-			
-			
-			
-			
-			
-			if data[4] > 180 and data[7] > 1:
-				
-				roll_duty = roll_duty + 0.15
-				
-			elif data[4] < 90 and data[7] > 1:
-				
-				roll_duty = roll_duty - 0.15
-			
-
-
-			
-			if data[7] == 2 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
-				
-				shoulder_duty = shoulder_duty - 0.1
-				
-			elif data[7] == 2 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
-				
-				shoulder_duty = shoulder_duty + 0.1
-
-
-			if data[7] == 3 and data[0] == 170 and data[1] != 254 and data[2] == 170 and data[3] != 254 :
-				
-				elbow_duty = elbow_duty - 0.1
-				
-			elif data[7] == 3 and data[0] == 187 and data[1] != 254 and data[2] == 187 and data[3] != 254 :
-				
-				elbow_duty = elbow_duty + 0.1
-
-
-
-			
-			
-
-
-
-			if (base_duty > 1.5):
-
-				base_duty = 1.5
-
-			elif (base_duty < -1.5):
-				
-				base_duty = -1.5
-
-
-
-			if (shoulder_duty > 1.5):
-
-				shoulder_duty = 1.5
-
-			elif (shoulder_duty < -1.5):
-				
-				shoulder_duty = -1.5
-
-
-			if (elbow_duty > 1.5):
-
-				elbow_duty = 1.5
-
-			elif (elbow_duty < -1.5):
-				
-				elbow_duty = -1.5
-
-
-			if (pitch_duty > 1.5):
-
-				pitch_duty = 1.5
-
-			elif (pitch_duty < -1.5):
-				
-				pitch_duty = -1.5
-
-
-
-			if (roll_duty > 1.5):
-
-				roll_duty = 1.5
-
-			elif (roll_duty < -1.5):
-				
-				roll_duty = -1.5
-
-
-
-			grabber_duty = data[8]
-
-			if (grabber_duty == 1): #  and data[7] > 1
-
-				grabber_duty = -1.5
-
-			elif (grabber_duty == 2): #  and data[7] > 1
-				
-				grabber_duty = 0.6
-
-
-			base_srvo.set(base_duty)
-			shoulder_srvo.set(shoulder_duty)
-			elbow_srvo.set(elbow_duty)
-			pitch_srvo.set(pitch_duty)
-			roll_srvo.set(roll_duty)
-			grabber_srvo.set(grabber_duty)
-			
-			pass
 
 		# Check if Paused
 	
