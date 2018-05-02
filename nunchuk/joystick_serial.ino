@@ -324,7 +324,7 @@ if (allowSerialWrite >= 50){ //Limits the number of packets sent over serial
 
 //  if ( ( joy_x_axis_direction > -25 && joy_x_axis_direction < 5 ) && ( joy_y_axis_direction > -20 && joy_y_axis_direction < -2 ) ) {
     
-  if ( ( joy_x_axis_direction > -30 && joy_x_axis_direction < 5 ) && ( joy_y_axis_direction > -20 && joy_y_axis_direction < -2 ) ) {
+   if ( (  nunchuck_buf[0] > 117 && nunchuck_buf[0] < 138 ) && ( nunchuck_buf[1] > 118 && nunchuck_buf[0] < 133 ) ) {
 
 
 //    Serial.print(187);Serial.print(",");
