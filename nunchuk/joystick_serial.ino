@@ -95,10 +95,7 @@ void loop() {
 //  digitalWrite(LED, HIGH);
   nunchuck_get_data();
 
-  // map nunchuk data to a servo data point
-
   nunchuck_print_data();
-
 }
 
 static void nunchuck_setpowerpins() {
