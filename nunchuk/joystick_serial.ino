@@ -96,8 +96,6 @@ void loop() {
   nunchuck_get_data();
 
   // map nunchuk data to a servo data point
-  int x_axis = map(nunchuck_buf[0], 23, 222, 180, 0);
-  int y_axis = map(nunchuck_buf[1], 32, 231, 0, 180);
 
   nunchuck_print_data();
 
